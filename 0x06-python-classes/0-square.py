@@ -1,8 +1,9 @@
-#!/usr/bin/python
-
-"""Define a class square."""
+#!/usr/bin/python3
+"""
+This class represents a square
+"""
 
 
 class Square:
-    """Represent a square."""
+    """The class has no attributes or methods defined"""
     pass
