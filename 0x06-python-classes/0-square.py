@@ -1,7 +1,8 @@
 #!/usr/bin/python
-"""This class represents a square"""
+
+"""Define a class square."""
 
 
 class Square:
-    """The square has no attributes or methods defined"""
+    """Represent a square."""
     pass
