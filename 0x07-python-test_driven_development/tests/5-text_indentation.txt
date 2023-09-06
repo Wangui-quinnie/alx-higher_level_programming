@@ -1,0 +1,45 @@
+The "5-text_indentation" module
+=====================================
+This uses the "5-text_indentation" function
+----------------------------------------------
+
+Importing the function from the module:
+	>>> text_indentation = __import__("5-text_indentation").text_indentation
+
+text is a string
+	>>> text_indentation("My name is Winnie. What is your name?")
+	My name is Winnie.
+	<BLANKLINE>
+	What is your name?
+	<BLANKLINE>
+
+text is not a string
+	>>> text_indentation(7)
+	Traceback (most recent call last):
+	    ...
+	TypeError: text must be a string
+
+text is an empty string
+	>>> text_indentation("")
+	
+
+spaces at the beginning
+	>>> text_indentation("   Leading spaces should be removed.")
+	Leading spaces should be removed.
+	<BLANKLINE>
+
+spaces at the end
+	>>> text_indentation("Ending spaces should be removed.  ")
+	Ending spaces should be removed.
+	<BLANKLINE>
+
+when text is a string with a colon
+	>>> text_indentation("What is this? It's a test:")
+	What is this?
+	<BLANKLINE>
+	It's a test:
+	<BLANKLINE>
+
+text is a string
+	>>> text_indentation("normal text")
+	normal text

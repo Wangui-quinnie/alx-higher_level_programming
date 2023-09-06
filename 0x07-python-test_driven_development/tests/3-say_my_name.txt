@@ -1,0 +1,31 @@
+The "3-say_my_name " module
+============================================
+This uses the "3-say_my_name" function
+---------------------------------------------------------
+
+Importing the function from the nodule:
+	>>> say_my_name = __import__("3-say_my_name").say_my_name
+
+when both names are strings
+	>>> say_my_name("John", "Smith")
+	My name is John Smith
+
+when just the first name is given
+	>>> say_my_name("Anna")
+	My name is Anna 
+
+when the last name is an empty string
+	>>> say_my_name("Dylan", "")
+	My name is Dylan 
+
+when the first name is not a string
+	>>> say_my_name(3, "Sammy")
+	Traceback (most recent call last):
+	    ...
+	TypeError: first_name must be a string
+
+when the last name is not a string
+	>>> say_my_name("Judy", 555)
+	Traceback (most recent call last):
+	    ...
+	TypeError: last_name must be a string
