@@ -81,7 +81,6 @@ class Square(Rectangle):
         self.__size = size
         super().__init__(size, size)
 
-
     def __str__(self):
         """
         Returns a string representation of the Square object.
