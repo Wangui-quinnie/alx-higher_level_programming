@@ -58,3 +58,24 @@ defaults to 0.
         """
         return "[Square] ({}) {}/{} - {}".format(self.id, self.x,
                                                  self.y, self.width)
+
+    def update(self, *args, **kwargs):
+        """
+        Updates the attributes of the square based on the given arguments.
+
+        Args:
+            *args: The non-keyword arguments to assign to the attributes.
+            **kwargs: The keyword arguments to assign to the attributes.
+        """
+        if args:
+            if len(args) >= 1:
+                self.id = args[0]
+            if len(args) >= 2:
+                self.size = args[1]
+            if len(args) >= 3:
+                self.x = args[2]
+            if len(args) >= 4:
+                self.y = args[3]
+        else:
+            for key, value in kwargs.items():
+                setattr(self, key, value)
