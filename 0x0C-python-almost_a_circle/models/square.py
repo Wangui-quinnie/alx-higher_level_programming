@@ -20,6 +20,35 @@ defaults to 0.
         """
         super().__init__(size, size, x, y, id)
 
+    @property
+    def size(self):
+        """
+        Retrieves the size of the square.
+
+        Returns:
+            int: The size of the square.
+        """
+        return self.width
+
+    @size.setter
+    def size(self, value):
+        """
+        Sets the size of the square.
+
+        Args:
+            value (int): The new size of the square.
+
+        Raises:
+            TypeError: If the value is not an integer.
+            ValueError: If the value <= 0.
+        """
+        if not isinstance(value, int):
+            raise TypeError("width must be an integer")
+        if value <= 0:
+            raise ValueError("width must be > 0")
+        self.width = value
+        self.height = value
+
     def __str__(self):
         """
         Overrides the default string representation of the object.
