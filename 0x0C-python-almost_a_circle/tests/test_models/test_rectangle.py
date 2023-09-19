@@ -3,91 +3,104 @@
 
 
 import unittest
+from models.base import Base
 from models.rectangle import Rectangle
+import io
+import sys
+import os
 
 
 class TestRectangle(unittest.TestCase):
 
-    def test_init(self):
-        r = Rectangle(2, 3)
-        self.assertEqual(r.width, 2)
-        self.assertEqual(r.height, 3)
+    def setUp(self):
+        self.saved_output = sys.stdout
+        sys.stdout = io.StringIO()
 
-    def test_width_setter(self):
-        r = Rectangle(2, 3)
-        r.width = 5
-        self.assertEqual(r.width, 5)
+    def tearDown(self):
+        sys.stdout = self.saved_output
 
-    def test_height_setter(self):
-        r = Rectangle(2, 3)
-        r.height = 6
-        self.assertEqual(r.height, 6)
+    def test_invalid_width_value(self):
+        with self.assertRaises(ValueError) as context:
+            r = Rectangle(10, 2)
+            r.width = -10
+        self.assertEqual(
+            str(context.exception),
+            "width must be > 0"
+        )
 
-    def test_area(self):
-        r = Rectangle(2, 3)
-        self.assertEqual(r.area(), 6)
+    def test_invalid_x_type(self):
+        with self.assertRaises(TypeError) as context:
+            r = Rectangle(10, 2)
+            r.x = {}
+        self.assertEqual(
+            str(context.exception),
+            "x must be an integer"
+        )
 
-    def test_str(self):
-        r = Rectangle(2, 3, 1, 4, 5)
-        self.assertEqual(str(r), "[Rectangle] (5) 1/4 - 2/3")
+    def test_invalid_y_value(self):
+        with self.assertRaises(ValueError) as context:
+            Rectangle(10, 2, 3, -1)
+        self.assertEqual(
+            str(context.exception),
+            "y must be >= 0"
+        )
 
-    def test_width_setter_negative(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(ValueError):
-            r.width = -3
+    def test_area_method(self):
+        r1 = Rectangle(3, 2)
+        self.assertEqual(r1.area(), 6)
 
-    def test_width_setter_string(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(TypeError):
-            r.width = "invalid"
+        r2 = Rectangle(2, 10)
+        self.assertEqual(r2.area(), 20)
 
-    def test_width_setter_zero(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(ValueError):
-            r.width = 0
+        r3 = Rectangle(8, 7, 0, 0, 12)
+        self.assertEqual(r3.area(), 56)
 
-    def test_height_setter_negative(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(ValueError):
-            r.height = -3
+    def test_display_method(self):
+        r1 = Rectangle(4, 6)
+        r1.display()
+        output = sys.stdout.getvalue()
+        expected_output = "####\n####\n####\n####\n####\n####\n"
+        self.assertEqual(output, expected_output)
 
-    def test_height_setter_string(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(TypeError):
-            r.height = "invalid"
+        r2 = Rectangle(2, 2)
+        r2.display()
+        output = sys.stdout.getvalue()
+        expected_output += "##\n##\n"
+        self.assertEqual(output, expected_output)
 
-    def test_height_setter_zero(self):
-        r = Rectangle(2, 3)
-        with self.assertRaises(ValueError):
-            r.height = 0
+    def test_str_method(self):
+        r1 = Rectangle(4, 6, 2, 1, 12)
+        self.assertEqual(str(r1), "[Rectangle] (12) 2/1 - 4/6")
 
-    def test_init_negative_width(self):
-        with self.assertRaises(ValueError):
-            r = Rectangle(-2, 3)
+    def test_display_method_with_offsets(self):
+        r1 = Rectangle(2, 3, 2, 2)
+        r1.display()
+        output = sys.stdout.getvalue()
+        expected_output = "\n\n  ##\n  ##\n  ##\n"
+        self.assertEqual(output, expected_output)
 
-    def test_init_negative_height(self):
-        with self.assertRaises(ValueError):
-            r = Rectangle(2, -3)
+        r2 = Rectangle(3, 2, 1, 0)
+        r2.display()
+        output = sys.stdout.getvalue()
+        expected_output += " ###\n ###\n"
+        self.assertEqual(output, expected_output)
 
-    def test_init_invalid_width_type(self):
-        with self.assertRaises(TypeError):
-            r = Rectangle("invalid", 3)
+    def test_update_method(self):
+        r1 = Rectangle(10, 10, 10, 10)
+        r1.update(89)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 10/10")
 
-    def test_init_invalid_height_type(self):
-        with self.assertRaises(TypeError):
-            r = Rectangle(2, "invalid")
+        r1.update(89, 2)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 2/10")
 
-    def test_init_zero_width(self):
-        with self.assertRaises(ValueError):
-            r = Rectangle(0, 3)
+        r1.update(89, 2, 3)
+        self.assertEqual(str(r1), "[Rectangle] (89) 10/10 - 2/3")
 
-    def test_init_zero_height(self):
-        with self.assertRaises(ValueError):
-            r = Rectangle(2, 0)
+        r1.update(89, 2, 3, 4)
+        self.assertEqual(str(r1), "[Rectangle] (89) 4/10 - 2/3")
 
-    def test_str_negative_id(self):
-        r = Rectangle(2, 3, 1, 4, -5)
-        self.assertEqual(str(r), "[Rectangle] (-5) 1/4 - 2/3")
+        r1.update(89, 2, 3, 4, 5)
+        self.assertEqual(str(r1), "[Rectangle] (89) 4/5 - 2/3")
 
 
 if __name__ == "__main__":
