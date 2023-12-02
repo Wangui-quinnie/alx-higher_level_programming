@@ -5,7 +5,7 @@ Python script that takes your GitHub credentials
 Must use Basic Authentication with a personal access token as
 password to access to your information (only read:user permission is needed)
 The first argument will be your username
-The second argument will be your password (in your case, a
+iThe second argument will be your password (in your case, a
 personal access token as password)
 You must use the package requests and sys
 """
@@ -16,7 +16,7 @@ import sys
 
 if __name__ == "__main__":
     username = sys.argv[1]
-    password = sys.argv[2]  #personal access token
+    password = sys.argv[2]
 
     url = "https://api.github.com/user"
     response = requests.get(url, auth=HTTPBasicAuth(username, password))
